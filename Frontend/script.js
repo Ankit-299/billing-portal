@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://billing-portal-backend-yuvi.onrender.com";
 
 function login() {
   const user = document.getElementById("username").value;
