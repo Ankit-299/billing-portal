@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GST Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="top-bar">
+<button onclick="goToHistory()">View History</button>
+</div>
+
+<div class="invoice">
+
+<div class="top-info">
+    <h3>GSTIN : 09ABAFK7596E1ZZ</h3>
+     
+    <h3>M : 9412626298, 8273439000</h3>
+</div>
+
+<h1 class="title">KANHAIYA ENT UDHYOG</h1>
+
+<p class="center">
+Kaulana Khadar, Post Bajna, Distt. Mathura
+<br>
+</p>
+
+<table>
+
+<tr>
+<td>Invoice No</td>
+<td><input type="text" id="invoice">
+
+</td>
+
+<td>Date</td>
+<td><input type="date"></td>
+</tr>
+<tr>
+  <td>reverse charge:</td>
+  <td>
+    <select id="reverseCharge">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </select>
+  </td>
+  <td></td>
+  <td></td>
+</tr>
+
+<tr>
+<td>Transport Mode</td>
+<td><input type="text"></td>
+
+<td>Vehicle Number</td>
+<td><input type="text" class="uppercase"></td>
+</tr>
+
+<tr>
+<td>Date of Supply</td>
+<td><input type="date"></td>
+
+<td>Place of Supply</td>
+<td><input type="text" placeholder="State (Code)" class="uppercase"></td>
+</tr>
+
+<tr>
+<td>Tax Type</td>
+<td>
+<select id="taxType">
+<option value="cgst_sgst">CGST + SGST</option>
+<option value="igst">IGST</option>
+</select>
+</td>
+<td>State : Uttar Pradesh</td>
+<td>Code : 09</td>
+</tr>
+
+</table>
+
+<table class="party-table">
+
+<tr>
+<th>Bill To Party</th>
+<th>Ship To Party</th>
+</tr>
+
+<tr>
+
+<td>
+<div class="form-row">
+<span>Name:</span>
+<input type="text" class="uppercase">
+</div>
+
+<div class="form-row">
+<span>Address:</span>
+<input type="text" class="uppercase">
+</div>
+
+<div class="form-row">
+<span>GSTIN:</span>
+<input type="text" class="uppercase">
+</div>
+<div class="form-row state-code-row">
+  <span>State:</span>
+  <input type="text" class="uppercase state-input">
+
+  <label class="code-label">Code:</label>
+  <input type="text" class="uppercase code-input">
+</div>
+
+</td>
+
+<td>
+
+<div class="form-row">
+<span>Name:</span>
+<input type="text" class="uppercase">
+</div>
+
+<div class="form-row">
+<span>Address:</span>
+<input type="text" class="uppercase">
+</div>
+
+<div class="form-row">
+<span>GSTIN:</span>
+<input type="text" class="uppercase">
+</div>
+<div class="form-row state-code-row">
+  <span>State:</span>
+  <input type="text" class="uppercase state-input">
+
+  <label class="code-label">Code:</label>
+  <input type="text" class="uppercase code-input">
+</div>
+
+</td>
+
+</tr>
+
+</table>
+
+<table>
+
+<tr>
+<th>S.No</th>
+<th>Description</th>
+<th>HSN/SAC Code</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Amount</th>
+</tr>
+
+<tbody id="items">
+
+<tr>
+<td>1</td>
+<td><input class="desc"></td>
+<td><input class="hsn"></td>
+<td><input class="qty"></td>
+<td><input class="rate"></td>
+<td class="amount"></td>
+</tr>
+
+</tbody>
+
+</table>
+
+<button onclick="addRow()">+ Add Item</button>
+
+<table>
+
+<tr>
+<td>Total Amount</td>
+<td id="total"></td>
+</tr>
+
+<tr>
+<td id="sgstLabel">Add : SGST 3%</td>
+<td id="sgst"></td>
+</tr>
+
+<tr>
+<td id="cgstLabel">Add : CGST 3%</td>
+<td id="cgst"></td>
+</tr>
+
+<tr>
+<td id="igstLabel">Add : IGST 6%</td>
+<td id="igst"></td>
+</tr>
+
+<tr>
+<td>Total Tax Amount GST</td>
+<td id="gsttotal"></td>
+</tr>
+
+<tr>
+<td><b>Total Amount After Tax</b></td>
+<td id="grand"></td>
+</tr>
+
+<tr>
+<td>GST on Reverse Charge</td>
+<td></td>
+</tr>
+
+<tr>
+<td colspan="2">
+Total Invoice Amount in Words : <span id="words"></span>
+</td>
+</tr>
+
+</table>
+
+
+<table class="bank-section">
+
+<tr>
+
+<td class="bank">
+<b>Bank Details</b>
+
+<div class="bank-row">
+<span class="label">Bank Name</span>
+<span>: STATE BANK OF INDIA</span>
+</div>
+
+<div class="bank-row">
+<span class="label">Account No</span>
+<span>: 42226960654</span>
+</div>
+
+<div class="bank-row">
+<span class="label">IFSC Code</span>
+<span>: SBIN0002433</span>
+</div>
+
+<table class="inner-terms-table">
+<tr>
+<td>
+<h4>Terms & Conditions</h4>
+<p class="terms">
+1. Goods Once Sold will Not Taken Back. <br>
+2. All disputes are subject to Mathura jurisdiction only. <br>
+3. E. & O. E.
+</p>
+</td>
+</tr>
+</table>
+
+</td>
+
+<td class="signature">
+
+<p class="certify">
+<h6>Certified that the particulars given 
+above are true and correct</h6>
+<h4>For KANHAIYA ENT UDHYOG</h4>
+</p>
+
+<br>
+
+<p class="seal">COMMON SEAL</p>
+
+<br>
+
+<p><b>Authorised Signature</b></p>
+
+</td>
+
+</tr>
+
+</table>
+
+<div class="buttons">
+<button onclick="saveAndDownload()">Save & Download PDF</button>
+<button onclick="window.print()">Print Bill</button>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

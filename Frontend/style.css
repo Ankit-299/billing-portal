@@ -1,0 +1,335 @@
+/* RESET */
+body{
+font-family: Arial;
+background:#f5f5f5;
+margin:0;
+}
+
+/* LOGIN */
+
+.login-box{
+width:300px;
+margin:150px auto;
+background:white;
+padding:30px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.login-box input{
+width:90%;
+padding:10px;
+margin:10px 0;
+}
+
+.login-box button{
+padding:10px 20px;
+background:blue;
+color:white;
+border:none;
+}
+
+/* INVOICE */
+
+.invoice{
+width:210mm;
+min-height:297mm;
+margin:auto;
+background:white;
+padding:10mm;
+border:2px solid blue;
+box-sizing:border-box;
+}
+
+/* HEADER */
+
+.title{
+text-align:center;
+color:blue;
+margin:5px 0;
+}
+
+.center{
+text-align:center;
+font-size:13px;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:0px;
+table-layout:fixed;
+}
+
+th,td{
+border:1px solid blue;
+padding:6px 8px;
+font-size:12px;
+text-align:center;
+vertical-align:middle;
+box-sizing:border-box;
+}
+
+input,
+select{
+border:none;
+outline:none;
+width:100%;
+padding:4px 6px;
+font-size:12px;
+background:transparent;
+box-sizing:border-box;
+display:block;
+}
+
+/* BUTTONS */
+
+.buttons{
+text-align:center;
+margin-top:15px;
+}
+
+button{
+padding:8px 15px;
+margin:5px;
+cursor:pointer;
+}
+
+/* BANK + SIGNATURE */
+
+.bank-section td{
+padding:12px;
+font-size:14px;
+vertical-align:top;
+}
+
+.bank{
+width:50%;
+text-align:left;
+line-height:28px;
+}
+
+.bank b{
+font-size:15px;
+display:block;
+margin-bottom:8px;
+}
+
+.bank .bank-row{
+display:flex;
+align-items:flex-start;
+gap:10px;
+}
+
+.bank .label{
+width:110px;
+font-weight:bold;
+display:inline-block;
+}
+
+.signature{
+width:50%;
+text-align:center;
+}
+
+.signature{
+width:50%;
+text-align:center;
+}
+
+.certify{
+font-size:12px;
+}
+
+.seal{
+margin:15px 0;
+font-weight:bold;
+}
+
+/* TERMS */
+
+.terms{
+font-size:11px;
+margin-top:10px;
+line-height:16px;
+}
+
+/* NAV BAR */
+
+.top-bar{
+display:flex;
+justify-content:flex-end;
+margin-bottom:10px;
+}
+
+.top-bar button{
+background:#28a745;
+color:white;
+border:none;
+border-radius:5px;
+}
+
+/* PARTY TABLE */
+
+.form-row{
+display:flex;
+align-items:center;
+gap:10px;
+margin:8px 0;
+}
+
+.form-row span{
+width:80px;
+font-size:13px;
+text-align:left;
+flex-shrink:0;
+}
+
+.form-row input{
+flex:1;
+border:none;
+outline:none;
+padding:4px 2px;
+font-size:13px;
+background:transparent;
+}
+
+.party-table{
+width:100%;
+table-layout:fixed;
+}
+
+.party-table th,
+.party-table td{
+width:50%;
+vertical-align:top;
+text-align:left;
+}
+
+.party-table th{
+text-align:center;
+}
+
+.party-table td{
+padding:12px;
+}
+
+/* PRINT SETTINGS (MOST IMPORTANT 🔥) */
+
+@page{
+size:A4;
+margin:5mm;
+}
+
+@media print{
+
+body{
+background:white;
+margin:0;
+}
+
+.invoice{
+width:100%;
+min-height:auto;
+padding:5mm;
+border:none;
+page-break-after:avoid;
+}
+
+/* prevent breaking */
+table, tr, td, th{
+page-break-inside:avoid;
+}
+
+/* compact print */
+th,td{
+font-size:11px;
+padding:4px 6px;
+}
+
+input,
+select{
+font-size:11px;
+padding:2px 4px;
+}
+
+h1{
+font-size:16px;
+margin:5px;
+}
+
+h3{
+font-size:13px;
+margin:5px;
+}
+
+/* hide buttons */
+button{
+display:none;
+}
+
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.invoice{
+width:95%;
+padding:10px;
+}
+
+th,td{
+font-size:11px;
+padding:4px;
+}
+
+input,
+select{
+font-size:11px;
+}
+
+.title{
+font-size:18px;
+}
+
+}
+.top-info{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:5px;
+}
+
+.top-info h6{
+margin:0;
+font-size:13px;
+font-weight:bold;
+}
+.inner-terms-table{
+width:100%;
+margin-top:12px;
+border-collapse:collapse;
+}
+
+.inner-terms-table td{
+border:1px solid blue;
+padding:10px;
+text-align:left;
+vertical-align:top;
+}
+
+.inner-terms-table h4{
+margin:0 0 8px 0;
+font-size:13px;
+}
+
+.terms{
+font-size:11px;
+line-height:17px;
+margin:0;
+padding:0;
+text-align:left;
+}

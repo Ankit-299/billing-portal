@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bill History</title>
+<link rel="stylesheet" href="history.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<h2>All Bills</h2>
+
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Invoice</th>
+        <th>Total</th>
+        <th>GST</th>
+        <th>Grand Total</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+</div>
+
+<script>
+const API_BASE_URL = "http://localhost:5000";
+
+fetch(`${API_BASE_URL}/bills`)
+  .then(res => {
+    if (!res.ok) {
+      throw new Error("Failed to fetch bills");
+    }
+    return res.json();
+  })
+  .then(data => {
+    let rows = "";
+
+    data.forEach(bill => {
+      rows += `
+        <tr>
+          <td>${bill.invoiceNo}</td>
+          <td>${bill.total}</td>
+          <td>${bill.gst}</td>
+          <td>${bill.grandTotal}</td>
+          <td>
+            <button onclick="deleteBill('${bill._id}')">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+
+    document.getElementById("data").innerHTML = rows;
+  })
+  .catch(err => {
+    console.log("Fetch error:", err);
+    alert("Bills load nahi hue. Backend check karo.");
+  });
+
+// DELETE FUNCTION
+function deleteBill(id) {
+  if (confirm("Delete this bill?")) {
+    fetch(`${API_BASE_URL}/delete-bill/${id}`, {
+      method: "DELETE"
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Failed to delete bill");
+        }
+        return res.json();
+      })
+      .then(() => {
+        alert("Deleted ✅");
+        location.reload();
+      })
+      .catch(err => {
+        console.log("Delete error:", err);
+        alert("Delete nahi hua. Backend check karo.");
+      });
+  }
+}
+</script>
+
+</body>
+</html>
