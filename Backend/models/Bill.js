@@ -4,6 +4,7 @@ const billSchema = new mongoose.Schema({
 
 invoiceNo: String,
 partyName: String,
+taxType: String,
 
 // ✅ MULTIPLE ITEMS ARRAY
 items: [

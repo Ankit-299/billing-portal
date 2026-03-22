@@ -1,5 +1,6 @@
 const API_BASE_URL = "https://billing-portal-backend-yuvi.onrender.com";
 
+// LOGIN
 function login() {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
@@ -11,7 +12,7 @@ function login() {
   }
 }
 
-/* Enter key support */
+// ENTER KEY LOGIN
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     login();
@@ -25,41 +26,21 @@ function goToHistory() {
 
 // NUMBER TO WORDS
 function numberToWords(num) {
-  const ones = [
-    "", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE",
+  const ones = ["", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE",
     "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN",
-    "EIGHTEEN", "NINETEEN"
-  ];
+    "EIGHTEEN", "NINETEEN"];
 
   const tens = ["", "", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY"];
 
   num = Math.floor(num);
 
   if (num === 0) return "ZERO";
-
-  if (num < 20) {
-    return ones[num];
-  }
-
-  if (num < 100) {
-    return tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "");
-  }
-
-  if (num < 1000) {
-    return ones[Math.floor(num / 100)] + " HUNDRED" + (num % 100 ? " " + numberToWords(num % 100) : "");
-  }
-
-  if (num < 100000) {
-    return numberToWords(Math.floor(num / 1000)) + " THOUSAND" + (num % 1000 ? " " + numberToWords(num % 1000) : "");
-  }
-
-  if (num < 10000000) {
-    return numberToWords(Math.floor(num / 100000)) + " LAKH" + (num % 100000 ? " " + numberToWords(num % 100000) : "");
-  }
-
-  if (num < 1000000000) {
-    return numberToWords(Math.floor(num / 10000000)) + " CRORE" + (num % 10000000 ? " " + numberToWords(num % 10000000) : "");
-  }
+  if (num < 20) return ones[num];
+  if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "");
+  if (num < 1000) return ones[Math.floor(num / 100)] + " HUNDRED" + (num % 100 ? " " + numberToWords(num % 100) : "");
+  if (num < 100000) return numberToWords(Math.floor(num / 1000)) + " THOUSAND" + (num % 1000 ? " " + numberToWords(num % 1000) : "");
+  if (num < 10000000) return numberToWords(Math.floor(num / 100000)) + " LAKH" + (num % 100000 ? " " + numberToWords(num % 100000) : "");
+  if (num < 1000000000) return numberToWords(Math.floor(num / 10000000)) + " CRORE" + (num % 10000000 ? " " + numberToWords(num % 10000000) : "");
 
   return num.toString();
 }
@@ -74,23 +55,18 @@ function amountInWords(amount) {
     words += " AND " + numberToWords(paise) + " PAISE";
   }
 
-  words += " ONLY";
-  return words;
+  return words + " ONLY";
 }
 
 // GENERATE BILL
 function generate() {
   let total = 0;
-
   const rows = document.querySelectorAll("#items tr");
 
   rows.forEach((row) => {
-    const qtyInput = row.querySelector(".qty");
-    const rateInput = row.querySelector(".rate");
+    const qty = Number(row.querySelector(".qty")?.value) || 0;
+    const rate = Number(row.querySelector(".rate")?.value) || 0;
     const amountCell = row.querySelector(".amount");
-
-    const qty = Number(qtyInput.value);
-    const rate = Number(rateInput.value);
 
     if (qty > 0 && rate > 0) {
       const amount = qty * rate;
@@ -103,28 +79,24 @@ function generate() {
 
   const taxType = document.getElementById("taxType").value;
 
-  let sgst = 0;
-  let cgst = 0;
-  let igst = 0;
-  let gsttotal = 0;
+  let sgst = 0, cgst = 0, igst = 0;
 
   if (taxType === "cgst_sgst") {
     sgst = total * 0.03;
     cgst = total * 0.03;
-    gsttotal = sgst + cgst;
 
     document.getElementById("sgst").innerText = sgst.toFixed(2);
     document.getElementById("cgst").innerText = cgst.toFixed(2);
     document.getElementById("igst").innerText = "-";
   } else {
     igst = total * 0.06;
-    gsttotal = igst;
 
     document.getElementById("sgst").innerText = "-";
     document.getElementById("cgst").innerText = "-";
     document.getElementById("igst").innerText = igst.toFixed(2);
   }
 
+  const gsttotal = sgst + cgst + igst;
   const grand = total + gsttotal;
 
   document.getElementById("total").innerText = total.toFixed(2);
@@ -133,41 +105,36 @@ function generate() {
   document.getElementById("words").innerText = amountInWords(grand);
 }
 
-// SAVE BILL
-function saveBill(total, gst, grand, taxType) {
+// SAVE BILL (FIXED)
+function saveBill(total, gst, grand) {
   const invoiceNo = document.getElementById("invoice").value.trim();
 
   if (!invoiceNo) {
     alert("Please enter invoice number");
-    return;
+    return Promise.reject();
   }
 
   const rows = document.querySelectorAll("#items tr");
   const items = [];
 
   rows.forEach((row) => {
-    const descInput = row.querySelector(".desc");
-    const hsnInput = row.querySelector(".hsn");
-    const qtyInput = row.querySelector(".qty");
-    const rateInput = row.querySelector(".rate");
-
-    const desc = descInput ? descInput.value.trim() : "";
-    const hsn = hsnInput ? hsnInput.value.trim() : "";
-    const qty = qtyInput ? Number(qtyInput.value) : 0;
-    const rate = rateInput ? Number(rateInput.value) : 0;
+    const desc = row.querySelector(".desc")?.value.trim() || "";
+    const hsn = row.querySelector(".hsn")?.value.trim() || "";
+    const qty = Number(row.querySelector(".qty")?.value) || 0;
+    const rate = Number(row.querySelector(".rate")?.value) || 0;
 
     if (qty > 0 && rate > 0) {
-      const amount = qty * rate;
-      items.push({ desc, hsn, qty, rate, amount });
+      items.push({ desc, hsn, qty, rate, amount: qty * rate });
     }
   });
 
   if (items.length === 0) {
     alert("Please enter at least one valid item");
-    return;
+    return Promise.reject();
   }
 
-  fetch(`${API_BASE_URL}/save-bill`, {
+  // ✅ IMPORTANT FIX
+  return fetch(`${API_BASE_URL}/save-bill`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -177,33 +144,29 @@ function saveBill(total, gst, grand, taxType) {
       items,
       total,
       gst,
-      grandTotal: grand,
-      taxType
+      grandTotal: grand
     })
   })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Failed to save bill");
-      }
+    .then(res => {
+      if (!res.ok) throw new Error("Save failed");
       return res.json();
     })
-    .then((data) => {
+    .then(data => {
       console.log("Saved ✅", data);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log("Save error:", err);
       alert("Bill save nahi hua. Backend check karo.");
     });
 }
 
-// FINAL BUTTON FUNCTION
-function saveAndDownload() {
+// FINAL BUTTON (FIXED)
+async function saveAndDownload() {
   generate();
 
   const total = Number(document.getElementById("total").innerText) || 0;
   const gst = Number(document.getElementById("gsttotal").innerText) || 0;
   const grand = Number(document.getElementById("grand").innerText) || 0;
-  const taxType = document.getElementById("taxType").value;
   const invoiceNo = document.getElementById("invoice").value.trim();
 
   if (!invoiceNo) {
@@ -212,11 +175,14 @@ function saveAndDownload() {
   }
 
   if (total <= 0) {
-    alert("Please fill item quantity and rate properly");
+    alert("Please fill item properly");
     return;
   }
 
-  saveBill(total, gst, grand, taxType);
+  // ✅ WAIT FOR SAVE
+  await saveBill(total, gst, grand);
+
+  // ✅ THEN DOWNLOAD
   downloadPDF();
 }
 
@@ -225,7 +191,7 @@ let count = 1;
 
 function addRow() {
   if (count >= 8) {
-    alert("Max 8 items allowed (1 page bill)");
+    alert("Max 8 items allowed");
     return;
   }
 
@@ -245,34 +211,38 @@ function addRow() {
   document.getElementById("items").insertAdjacentHTML("beforeend", row);
 }
 
-// AUTO CALCULATION
-document.addEventListener("input", function (e) {
-  if (
-    e.target.classList.contains("qty") ||
-    e.target.classList.contains("rate")
-  ) {
+// AUTO CALC
+document.addEventListener("input", (e) => {
+  if (e.target.classList.contains("qty") || e.target.classList.contains("rate")) {
     generate();
   }
 });
 
-document.addEventListener("change", function (e) {
+document.addEventListener("change", (e) => {
   if (e.target.id === "taxType") {
     generate();
   }
 });
+function printBill() {
+  const buttons = document.querySelector(".buttons");
+  buttons.style.display = "none";
 
-// PDF DOWNLOAD
-function downloadPDF() {
-  const element = document.querySelector(".invoice");
-  const invoiceNo = document.getElementById("invoice").value.trim() || "bill";
+  window.print();
 
-  const opt = {
-    margin: 5,
-    filename: `Invoice_${invoiceNo}.pdf`,
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  };
+  setTimeout(() => {
+    buttons.style.display = "block";
+  }, 1000);
+}
+function saveAndPrint() {
+  generate();
 
-  html2pdf().set(opt).from(element).save();
+  const total = Number(document.getElementById("total").innerText) || 0;
+  const gst = Number(document.getElementById("gsttotal").innerText) || 0;
+  const grand = Number(document.getElementById("grand").innerText) || 0;
+
+  saveBill(total, gst, grand); // backend save
+
+  setTimeout(() => {
+    printBill(); // print
+  }, 500);
 }
