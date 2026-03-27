@@ -11,7 +11,20 @@ function login() {
     alert("Invalid Username or Password");
   }
 }
+window.onload = function () {
+  const input = document.getElementById("invoice");
+  input.value = "KB/26-27/";
+  
+  // cursor ko last me set karega
+  input.setSelectionRange(input.value.length, input.value.length);
+};
+document.getElementById("invoice").addEventListener("keydown", function (e) {
+  const prefix = "KB/26-27/";
 
+  if (this.selectionStart <= prefix.length && (e.key === "Backspace" || e.key === "Delete")) {
+    e.preventDefault();
+  }
+});
 // ENTER KEY LOGIN
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
@@ -104,7 +117,27 @@ function generate() {
   document.getElementById("grand").innerText = grand.toFixed(2);
   document.getElementById("words").innerText = amountInWords(grand);
 }
+function handleTransportMode() {
+  const select = document.getElementById("transportMode");
+  const customInput = document.getElementById("customTransport");
 
+  if (select.value === "Other") {
+    customInput.style.display = "block";
+  } else {
+    customInput.style.display = "none";
+    customInput.value = "";
+  }
+}
+function handleDescChange(select) {
+    let customInput = select.parentElement.querySelector(".custom-desc");
+
+    if (select.value === "Other") {
+        customInput.style.display = "block";
+    } else {
+        customInput.style.display = "none";
+        customInput.value = "";
+    }
+}
 // SAVE BILL (FIXED)
 function saveBill(total, gst, grand) {
   const invoiceNo = document.getElementById("invoice").value.trim();
@@ -213,9 +246,18 @@ function addRow() {
 
 // AUTO CALC
 document.addEventListener("input", (e) => {
+
+  // ✅ qty/rate calc
   if (e.target.classList.contains("qty") || e.target.classList.contains("rate")) {
     generate();
   }
+
+  // ✅ name auto expand
+  if (e.target.classList.contains("name-field")) {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  }
+
 });
 
 document.addEventListener("change", (e) => {

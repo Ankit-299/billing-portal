@@ -14,10 +14,16 @@
 <div class="invoice">
 
 <div class="top-info">
-    <h3>GSTIN : 09ABAFK7596E1ZZ</h3>
+    <h3>GSTIN : 09ABAFK7596E1ZZ <br>M : 9412626298, 8273439000</h3>
      
-    <h3>M : 9412626298, 8273439000</h3>
+    
 </div>
+<div class="invoice-copy">
+  <label><input type="checkbox"> Original for Recipient</label><br>
+  <label><input type="checkbox"> Duplicate for Supplier/Transporter</label><br>
+  <label><input type="checkbox"> Triplicate for Supplier</label>
+</div>
+<h2 class="center">Tax Invoice</h2> 
 
 <h1 class="title">KANHAIYA ENT UDHYOG</h1>
 
@@ -30,7 +36,7 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 
 <tr>
 <td>Invoice No</td>
-<td><input type="text" id="invoice">
+<td><input type="text" id="invoice" value="KB/26-27/">
 
 </td>
 
@@ -51,7 +57,18 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 
 <tr>
 <td>Transport Mode</td>
-<td><input type="text"></td>
+<td>
+  <select id="transportMode" onchange="handleTransportMode()">
+    <option value="">Select</option>
+    <option value="Tractor">Tractor</option>
+    <option value="Buggi">Buggi</option>
+    <option value="Truck">Truck</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <!-- hidden input -->
+  <input type="text" id="customTransport" placeholder="Enter transport" style="display:none; margin-top:5px;">
+</td>
 
 <td>Vehicle Number</td>
 <td><input type="text" class="uppercase"></td>
@@ -91,7 +108,7 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 <td>
 <div class="form-row">
 <span>Name:</span>
-<input type="text" class="uppercase" >
+<textarea class="uppercase name-field"></textarea>
 </div>
 
 <div class="form-row">
@@ -117,7 +134,7 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 
 <div class="form-row">
 <span>Name:</span>
-<input type="text" class="uppercase" >
+<textarea class="uppercase name-field"></textarea>
 </div>
 
 <div class="form-row">
@@ -158,8 +175,20 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 
 <tr>
 <td>1</td>
-<td><input class="desc"></td>
-<td><input class="hsn"></td>
+<td>
+  <select class="desc-select" onchange="handleDescChange(this)">
+    <option value="">Select</option>
+    <option value="ENT NO.1">ENT NO.1st</option>
+    <option value="ENT NO.2">ENT NO.2nd</option>
+    <option value="ENT NO.3">ENT NO.3rd</option>
+    <option value="ENT-RODA">ENT-RODA</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <!-- custom input -->
+  <input type="text" class="desc custom-desc" placeholder="Enter description" style="display:none; margin-top:5px;">
+</td>
+<td><input class="hsn" value="6810" readonly></td>
 <td><input class="qty"></td>
 <td><input class="rate"></td>
 <td class="amount"></td>
@@ -174,7 +203,7 @@ Kaulana Khadar, Post Bajna, Distt. Mathura
 <table>
 
 <tr>
-<td>Total Amount</td>
+<td>Taxable Amount</td>
 <td id="total"></td>
 </tr>
 
@@ -245,8 +274,9 @@ Total Invoice Amount in Words : <span id="words"></span>
 <h4>Terms & Conditions</h4>
 <p class="terms">
 1. Goods Once Sold will Not Taken Back. <br>
-2. All disputes are subject to Mathura jurisdiction only. <br>
-3. E. & O. E.
+2. Interest @ 18% will be charged if the invoice is not paid by due date. <br>
+3. All disputes are subject to Mathura jurisdiction only. <br>
+4. E. & O. E.
 </p>
 </td>
 </tr>
@@ -264,11 +294,11 @@ above are true and correct</h6>
 
 <br>
 
-<p class="seal">COMMON SEAL</p>
+<p class="seal">Authorised Signature</p>
 
 <br>
 
-<p><b>Authorised Signature</b></p>
+<p><b>COMMON SEAL</b></p>
 
 </td>
 

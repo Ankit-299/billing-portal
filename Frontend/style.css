@@ -233,3 +233,53 @@ button {
     font-size: 18px;
   }
 }
+.name-field {
+  width: 100%;
+  min-height: 20px;
+  height:auto;   /* height bada */
+  resize: none;       /* resize icon hata dega */
+  border: none;       /* border remove */
+  outline: none;      /* click pe blue border bhi nahi */
+  background: transparent; /* same background */
+  font-size: 14px;
+  padding: 2px;
+  overflow:hidden;
+}
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+.name-field:focus {
+  border-bottom: 1px dashed #999;
+}
+.state-code-row {
+  display: flex;
+  align-items: center;   /* ⭐ MAIN FIX */
+  gap: 6px;
+}
+.code-label {
+  display: flex;
+  align-items: center;   /* ⭐ text ko center karega */
+  height: 28px;          /* input ke equal */
+}
+.code-input {
+  height: 28px;
+  box-sizing: border-box;
+}
+#transportMode, #customTransport {
+  width: 100%;
+  padding: 4px;
+}
+.invoice-copy {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.invoice {
+  position: relative;  /* IMPORTANT */
+}
